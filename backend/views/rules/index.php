@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
-            'refids',
+            // 'refids',
             'en_name',
             'rule_value',
 

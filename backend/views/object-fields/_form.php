@@ -20,6 +20,8 @@ if(empty($model->db_type)){
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'en_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'field_group1')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'field_group2')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'db_type')->radioList(DataDict::getDict('db_type')) ?>
     <?= $form->field($model, 'qmbehaviors')->checkboxList(DataDict::getDict('qmbehaviors'))?>
     <?= $form->field($model, 'rules')->textarea(['rows' => 6]) ?>

@@ -70,6 +70,9 @@ class Objects extends \yii\db\ActiveRecord
     }
 
     public function getParentCode($id){
+        if(empty($id)){
+            $id=-1;
+        }
         $objs = Objects::find()->select("id,name")->where(['!=', 'id', $id])->all();
         $retarray = array();
         foreach ($objs as $key => $value) {

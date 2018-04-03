@@ -21,10 +21,6 @@ class JsonArrayBehavior extends AttributeBehavior
 
     public function beforeValidate($event)
     {       
-        Yii::error($event->name);
-        
-            Yii::error($event);
-        
         // 处理器方法逻辑
         if (!empty($this->attributes)) {
             $attributes = (array) $this->attributes;
@@ -35,7 +31,10 @@ class JsonArrayBehavior extends AttributeBehavior
                     if (empty($this->owner->$attribute)) {
                         continue;
                     }
-                    $this->owner->$attribute = Json::encode($this->owner->$attribute);
+                    if(is_array($this->owner->$attribute)){
+                        $this->owner->$attribute = Json::encode($this->owner->$attribute);
+                    }
+
                 }
             }
         }
@@ -47,16 +46,11 @@ class JsonArrayBehavior extends AttributeBehavior
         if (!empty($this->attributes)) {
             $attributes = (array) $this->attributes;
             foreach ($attributes as $attribute) {
-
                 // ignore attribute names which are not string (e.g. when set by TimestampBehavior::updatedAtAttribute)
                 if (is_string($attribute)) {
                     if (empty($this->owner->$attribute)) {
                         continue;
                     }
-                //     $ss = Json::decode($this->owner->$attribute);
-                    $str = $this->owner->$attribute;
-                // var_dump( json_decode($str,true));
-                // die;
                     $this->owner->$attribute = Json::decode($this->owner->$attribute);
                 }
             }

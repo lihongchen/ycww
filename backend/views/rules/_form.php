@@ -15,9 +15,11 @@ if(empty($model->status)){
 
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'rule_group')->radioList(DataDict::getDict('rule_group')) ?>
     <?= $form->field($model, 'en_name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'rule_value')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'refids')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'refids')->checkboxList($model->getRules($model->id)) ?>
+
     <?= $form->field($model, 'status')->radioList(DataDict::getDict('status')) ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

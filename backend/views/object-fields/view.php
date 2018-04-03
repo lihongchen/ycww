@@ -36,13 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'db_type',
             'rules:ntext',
             'object_id',
-            'qmbehaviors', 
-            // [
-            //     'attribute' => 'qmbehaviors',
-            //     'value' => function($model){
-            //         return Json::encode($model->qmbehaviors);
-            //     }
-            // ],
+            [
+                'attribute' => 'qmbehaviors',
+                'value' => function($model){
+                    return Json::encode($model->qmbehaviors);
+                }
+            ],
         ],
     ]) ?>
 

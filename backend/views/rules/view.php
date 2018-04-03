@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\helpers\Json;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Rules */
 
@@ -33,7 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
-            'refids',
+            'rule_group',
+            [
+                'attribute' => 'refids',
+                'value' => function($model){
+                    return Json::encode($model->refids);
+                }
+            ],
             'en_name',
             'rule_value',
         ],
