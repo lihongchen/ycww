@@ -16,6 +16,7 @@ use common\behaviors\JsonArrayBehavior;
  * @property string $en_name 规则英文名称
  * @property string $rule_value 限制值
  * @property string $group 分组
+ * @property string $widget_type 控件类型
  */
 class Rules extends \yii\db\ActiveRecord
 {
@@ -44,8 +45,8 @@ class Rules extends \yii\db\ActiveRecord
     {
         return [
             [['create_date', 'update_date'], 'safe'],
-            [['status'], 'integer'],
-            [['name', 'refids', 'en_name', 'rule_value', 'rule_group'], 'string', 'max' => 255],
+            [['status','self_use'], 'integer'],
+            [['name', 'refids', 'en_name', 'rule_value', 'rule_group', 'widget_type'], 'string', 'max' => 255],
         ];
     }
 
@@ -64,14 +65,27 @@ class Rules extends \yii\db\ActiveRecord
             'en_name' => '规则英文名称',
             'rule_value' => '限制值',
             'rule_group' => '分组',
+            'widget_type' => '控件类型', 
+            'self_use' => '使用方式',
         ];
     }
 
-    public function getRules($id){
+    public static function getRules($id){
         if(empty($id)){
             $id=-1;
         }
         $objs = Rules::find()->select("id,name,rule_group")->where(['!=', 'id', $id])->orderBy('convert(rule_group using gbk) asc') ->all();
+        $retarray = array();
+        foreach ($objs as $key => $value) {
+            $retarray[$value['id']] = $value['rule_group'].":".$value['name'] ; 
+        }
+        return $retarray;
+    }
+    public static function getPublicRules(){
+        if(empty($id)){
+            $id=-1;
+        }
+        $objs = Rules::find()->select("id,name,rule_group")->where(['!=', 'id', $id])->andWhere(['self_use'=>2])->orderBy('convert(rule_group using gbk) asc') ->all();
         $retarray = array();
         foreach ($objs as $key => $value) {
             $retarray[$value['id']] = $value['rule_group'].":".$value['name'] ; 

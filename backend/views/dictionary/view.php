@@ -2,15 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\Json;
+
 /* @var $this yii\web\View */
-/* @var $model backend\models\Rules */
+/* @var $model backend\models\Dictionary */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Rules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Dictionaries', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="rules-view">
+<div class="dictionary-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -33,16 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
-            'rule_group',
-            [
-                'attribute' => 'refids',
-                'value' => function($model){
-                    return Json::encode($model->refids);
-                }
-            ],
-            'en_name',
-            'rule_value',
-            'self_use',
+            'select_value:ntext',
+            'interface',
         ],
     ]) ?>
 

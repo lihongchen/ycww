@@ -19,21 +19,22 @@ use common\behaviors\JsonArrayBehavior;
  * @property string $qmbehaviors 行为
  * @property string $field_group1 分组1
  * @property string $field_group2 分组2
+ * @property string $widget_type 控件类型
  *
  * @property Objects $object
  */
 class ObjectFields extends \yii\db\ActiveRecord
 {
-
-    public function behaviors() 
-   { 
-       return array_merge(parent::behaviors(), [ 
-           [ 
-               'class'  => JsonArrayBehavior::className(), 
-               'attributes' => 'qmbehaviors', 
-           ], 
-       ]); 
-   } 
+         
+   public function behaviors()  
+  {  
+      return array_merge(parent::behaviors(), [  
+          [  
+              'class' => JsonArrayBehavior::className(),  
+              'attributes' => 'qmbehaviors',  
+          ],  
+      ]);  
+  }  
  
     /**
      * @inheritdoc
@@ -53,7 +54,7 @@ class ObjectFields extends \yii\db\ActiveRecord
             [['status', 'object_id'], 'integer'],
             [['en_name', 'name'], 'required'],
             [['rules'], 'string'],
-            [['en_name', 'name', 'db_type', 'qmbehaviors', 'field_group1', 'field_group2'], 'string', 'max' => 255],
+            [['en_name', 'name', 'db_type', 'qmbehaviors', 'field_group1', 'field_group2', 'widget_type'], 'string', 'max' => 255],
             [['object_id'], 'exist', 'skipOnError' => true, 'targetClass' => Objects::className(), 'targetAttribute' => ['object_id' => 'id']],
         ];
     }
@@ -76,6 +77,7 @@ class ObjectFields extends \yii\db\ActiveRecord
             'qmbehaviors' => '行为',
             'field_group1' => '分组1',
             'field_group2' => '分组2',
+            'widget_type' => '控件类型',
         ];
     }
 

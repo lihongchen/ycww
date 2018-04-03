@@ -18,8 +18,11 @@ class DataDict
                     'date'=>'日期','datetime'=>'日期时间',
                     );
         $rule_group = array('长度'=>'长度','对象'=>'对象','精度'=>'精度',
-                    '日期格式'=>'日期格式',
+                    '日期格式'=>'日期格式','收集方式'=>'收集方式',
                     );
+        $widget_type = array('textbox'=>'文本框','textarea'=>'富文本框','checkbox'=>'复选框组','select'=>'下拉框','date'=>'日期','datetime'=>'日期时间',
+                    );
+        $self_use = array(1=>'自用',2=>'公用',);
 
 
         $behaviorsPath = Yii::getAlias("@common").'/behaviors';
@@ -40,6 +43,9 @@ class DataDict
                             'db_type'=>$db_type,
                             'qmbehaviors'=>$qmbehaviors,
                             'rule_group'=>$rule_group,
+                            'widget_type'=>$widget_type,
+                            'self_use'=>$self_use,
+
                           );
         return $dictArray[$key];
     } 
