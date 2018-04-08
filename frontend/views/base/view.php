@@ -2,16 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\Json;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Objects */
+/* @var $model frontend\models\Base */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Objects', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Bases', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="objects-view">
+<div class="base-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -33,16 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_date',
             'update_date',
             'status',
-            'name',
-            'en_name',
-            [
-                'attribute' => 'operations',
-                'value' => function($model){
-                    return Json::encode($model->operations);
-                }
-            ],
-            'list_show_fields',
-            'order'
         ],
     ]) ?>
 

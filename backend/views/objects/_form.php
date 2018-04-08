@@ -22,7 +22,7 @@ if(empty($model->status)){
     
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'en_name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'parent_id')->radioList($model->getParentCode($model->id)) ?>
 
     <?= $form->field($model, 'operations')->checkboxList(DataDict::getDict('operations')) ?>

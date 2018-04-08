@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Objects;
-use backend\models\ObjectsSearcjh;
+use backend\models\ObjectsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class ObjectsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ObjectsSearcjh();
+        $searchModel = new ObjectsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Objects;
+use backend\models\Dictionary;
 
 /**
- * ObjectsSearcjh represents the model behind the search form of `backend\models\Objects`.
+ * DictionarySearcjh represents the model behind the search form of `backend\models\Dictionary`.
  */
-class ObjectsSearcjh extends Objects
+class DictionarySearch extends Dictionary
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class ObjectsSearcjh extends Objects
     {
         return [
             [['id', 'status'], 'integer'],
-            [['create_date', 'update_date', 'name', 'operations', 'list_show_fields'], 'safe'],
+            [['create_date', 'update_date', 'name', 'interface'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ObjectsSearcjh extends Objects
      */
     public function search($params)
     {
-        $query = Objects::find();
+        $query = Dictionary::find();
 
         // add conditions that should always apply here
 
@@ -49,7 +49,7 @@ class ObjectsSearcjh extends Objects
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->load($params,'');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -66,8 +66,7 @@ class ObjectsSearcjh extends Objects
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'operations', $this->operations])
-            ->andFilterWhere(['like', 'list_show_fields', $this->list_show_fields]);
+            ->andFilterWhere(['like', 'interface', $this->interface]);
 
         return $dataProvider;
     }

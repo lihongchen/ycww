@@ -1,18 +1,18 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use backend\models\ObjectFields;
-use backend\models\ObjectFieldsSearch;
+use frontend\models\Base;
+use frontend\models\BaseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ObjectFieldsController implements the CRUD actions for ObjectFields model.
+ * BaseController implements the CRUD actions for Base model.
  */
-class ObjectFieldsController extends Controller
+class BaseController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Lists all ObjectFields models.
+     * Lists all Base models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ObjectFieldsSearch();
+        $searchModel = new BaseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Displays a single ObjectFields model.
+     * Displays a single Base model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,14 +58,14 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Creates a new ObjectFields model.
+     * Creates a new Base model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($object_id)
+    public function actionCreate()
     {
-        $model = new ObjectFields();
-        $model->object_id = $object_id;
+        $model = new Base();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -76,7 +76,7 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Updates an existing ObjectFields model.
+     * Updates an existing Base model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Deletes an existing ObjectFields model.
+     * Deletes an existing Base model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class ObjectFieldsController extends Controller
     }
 
     /**
-     * Finds the ObjectFields model based on its primary key value.
+     * Finds the Base model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ObjectFields the loaded model
+     * @return Base the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ObjectFields::findOne($id)) !== null) {
+        if (($model = Base::findOne($id)) !== null) {
             return $model;
         }
 

@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Rules;
+use backend\models\Objects;
 
 /**
- * RulesSearcjh represents the model behind the search form of `backend\models\Rules`.
+ * ObjectsSearcjh represents the model behind the search form of `backend\models\Objects`.
  */
-class RulesSearcjh extends Rules
+class ObjectsSearch extends Objects
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class RulesSearcjh extends Rules
     {
         return [
             [['id', 'status'], 'integer'],
-            [['create_date', 'update_date', 'name', 'refids', 'en_name', 'rule_value'], 'safe'],
+            [['create_date', 'update_date', 'name', 'operations', 'list_show_fields'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class RulesSearcjh extends Rules
      */
     public function search($params)
     {
-        $query = Rules::find();
+        $query = Objects::find();
 
         // add conditions that should always apply here
 
@@ -66,9 +66,8 @@ class RulesSearcjh extends Rules
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'refids', $this->refids])
-            ->andFilterWhere(['like', 'en_name', $this->en_name])
-            ->andFilterWhere(['like', 'rule_value', $this->rule_value]);
+            ->andFilterWhere(['like', 'operations', $this->operations])
+            ->andFilterWhere(['like', 'list_show_fields', $this->list_show_fields]);
 
         return $dataProvider;
     }

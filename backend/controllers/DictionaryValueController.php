@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\DictionaryValue;
-use backend\models\DictionaryValueSearcjh;
+use backend\models\DictionaryValueSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class DictionaryValueController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DictionaryValueSearcjh();
+        $searchModel = new DictionaryValueSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

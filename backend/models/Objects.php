@@ -16,6 +16,8 @@ use common\behaviors\JsonArrayBehavior;
  * @property string $operations 操作内容（crud）["c","r","u","d"]
  * @property string $list_show_fields list 页面显示字段，空为显示所有
  * @property int $parent_id 父对象id 
+ * @property int $order 排序
+ * @property string $en_name 对象英文标识符
  */
 class Objects extends \yii\db\ActiveRecord
 {
@@ -48,7 +50,7 @@ class Objects extends \yii\db\ActiveRecord
             [['create_date', 'update_date'], 'safe'],
             [['status', 'parent_id','order'], 'integer'],
             [['name'], 'required'],
-            [['name', 'operations', 'list_show_fields'], 'string', 'max' => 255],
+            [['name', 'operations', 'list_show_fields', 'en_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -67,6 +69,7 @@ class Objects extends \yii\db\ActiveRecord
             'list_show_fields' => 'list 页面显示字段，空为显示所有',
             'parent_id' => '父对象', 
             'order' => '排序',
+            'en_name' => '对象英文标识符', 
         ];
     }
 

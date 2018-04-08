@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Dictionary;
+use backend\models\ObjectFields;
 
 /**
- * DictionarySearcjh represents the model behind the search form of `backend\models\Dictionary`.
+ * ObjectFieldsSearcjh represents the model behind the search form of `backend\models\ObjectFields`.
  */
-class DictionarySearcjh extends Dictionary
+class ObjectFieldsSearch extends ObjectFields
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class DictionarySearcjh extends Dictionary
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['create_date', 'update_date', 'name', 'interface'], 'safe'],
+            [['id', 'status', 'object_id'], 'integer'],
+            [['create_date', 'update_date', 'name', 'db_type', 'rules'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class DictionarySearcjh extends Dictionary
      */
     public function search($params)
     {
-        $query = Dictionary::find();
+        $query = ObjectFields::find();
 
         // add conditions that should always apply here
 
@@ -63,10 +63,12 @@ class DictionarySearcjh extends Dictionary
             'create_date' => $this->create_date,
             'update_date' => $this->update_date,
             'status' => $this->status,
+            'object_id' => $this->object_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'interface', $this->interface]);
+            ->andFilterWhere(['like', 'db_type', $this->db_type])
+            ->andFilterWhere(['like', 'rules', $this->rules]);
 
         return $dataProvider;
     }

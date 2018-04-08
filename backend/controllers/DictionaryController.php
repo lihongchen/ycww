@@ -4,11 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Dictionary;
-use backend\models\DictionarySearcjh;
+use backend\models\DictionarySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 /**
  * DictionaryController implements the CRUD actions for Dictionary model.
  */
@@ -35,7 +34,7 @@ class DictionaryController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DictionarySearcjh();
+        $searchModel = new DictionarySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -64,12 +63,10 @@ class DictionaryController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Dictionary();
-
+        $model = new Dictionary(); 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        }
-
+        } 
         return $this->render('create', [
             'model' => $model,
         ]);

@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\DictionaryValue;
+use frontend\models\Base;
 
 /**
- * DictionaryValueSearcjh represents the model behind the search form of `backend\models\DictionaryValue`.
+ * BaseSearch represents the model behind the search form of `frontend\models\Base`.
  */
-class DictionaryValueSearcjh extends DictionaryValue
+class BaseSearch extends Base
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class DictionaryValueSearcjh extends DictionaryValue
     public function rules()
     {
         return [
-            [['id', 'status', 'dictionary_id'], 'integer'],
-            [['create_date', 'update_date', 'key', 'value'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['create_date', 'update_date'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class DictionaryValueSearcjh extends DictionaryValue
      */
     public function search($params)
     {
-        $query = DictionaryValue::find();
+        $query = Base::find();
 
         // add conditions that should always apply here
 
@@ -49,7 +49,7 @@ class DictionaryValueSearcjh extends DictionaryValue
             'query' => $query,
         ]);
 
-        $this->load($params,'');
+        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -63,11 +63,7 @@ class DictionaryValueSearcjh extends DictionaryValue
             'create_date' => $this->create_date,
             'update_date' => $this->update_date,
             'status' => $this->status,
-            'dictionary_id' => $this->dictionary_id,
         ]);
-
-        $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'value', $this->value]);
 
         return $dataProvider;
     }
