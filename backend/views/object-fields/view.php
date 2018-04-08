@@ -34,8 +34,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
             'name',
             'db_type',
-            'rules:ntext',
+            [
+                'attribute' => 'rules',
+                'value' => function($model){
+                    return Json::encode($model->rules);
+                }
+            ],
             'object_id',
+            'dictionary_id',
             [
                 'attribute' => 'qmbehaviors',
                 'value' => function($model){

@@ -26,17 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             // ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
+            'name',
             'create_date',
             // 'update_date',
             'status',
-            'name',
+
             [
                 'attribute' => 'operations',
                 'value' => function($model){
                     return Json::encode($model->operations);
                 }
             ],
+            'order',
             'list_show_fields',
             [
                 'class' => 'yii\grid\ActionColumn',

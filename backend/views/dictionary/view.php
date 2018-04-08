@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
-            'select_value:ntext',
             'interface',
         ],
     ]) ?>

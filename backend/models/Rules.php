@@ -67,6 +67,7 @@ class Rules extends \yii\db\ActiveRecord
             'rule_group' => '分组',
             'widget_type' => '控件类型', 
             'self_use' => '使用方式',
+            'dictionary_id' => '使用字典',
         ];
     }
 

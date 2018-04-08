@@ -12,8 +12,9 @@ use Yii;
  * @property string $update_date
  * @property int $status 0 不可用  1 可用
  * @property string $name 字典名称
- * @property string $select_value
  * @property string $interface 接口获取数据
+ *
+ * @property DictionaryValue[] $dictionaryValues
  */
 class Dictionary extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,6 @@ class Dictionary extends \yii\db\ActiveRecord
         return [
             [['create_date', 'update_date'], 'safe'],
             [['status'], 'integer'],
-            [['select_value'], 'string'],
             [['name', 'interface'], 'string', 'max' => 255],
         ];
     }
@@ -49,8 +49,25 @@ class Dictionary extends \yii\db\ActiveRecord
             'update_date' => 'Update Date',
             'status' => '0 不可用  1 可用',
             'name' => '字典名称',
-            'select_value' => 'Select Value',
             'interface' => '接口获取数据',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDictionaryValues()
+    {
+        return $this->hasMany(DictionaryValue::className(), ['dictionary_id' => 'id']);
+    }
+
+    public static function getDictionary(){
+
+        $objs = Dictionary::find()->select("id,name")->orderBy('convert(name using gbk) asc') ->all();
+        $retarray = array();
+        foreach ($objs as $key => $value) {
+            $retarray[$value['id']] = $value['name'] ; 
+        }
+        return $retarray;
     }
 }

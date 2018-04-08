@@ -46,7 +46,7 @@ class Objects extends \yii\db\ActiveRecord
     {
         return [
             [['create_date', 'update_date'], 'safe'],
-            [['status', 'parent_id'], 'integer'],
+            [['status', 'parent_id','order'], 'integer'],
             [['name'], 'required'],
             [['name', 'operations', 'list_show_fields'], 'string', 'max' => 255],
         ];
@@ -66,6 +66,7 @@ class Objects extends \yii\db\ActiveRecord
             'operations' => '操作内容（crud）[\"c\",\"r\",\"u\",\"d\"]',
             'list_show_fields' => 'list 页面显示字段，空为显示所有',
             'parent_id' => '父对象', 
+            'order' => '排序',
         ];
     }
 

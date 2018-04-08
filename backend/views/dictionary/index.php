@@ -30,10 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
-            //'select_value:ntext',
-            //'interface',
+            'interface',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header'=>'操作',
+                'template'=>'{view} {update} {delete} {key_value}',
+                'buttons' => [
+                    'key_value'=>function($url, $model, $key){
+                        return Html::a('字典选项',['/dictionary-value','dictionary_id'=>$model->id],[
+                                'class'=>'btn btn-primary btn-sm' ]);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>

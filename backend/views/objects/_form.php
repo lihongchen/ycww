@@ -29,8 +29,8 @@ if(empty($model->status)){
 
     <?= $form->field($model, 'list_show_fields')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'order')->textInput()?>
     <?= $form->field($model, 'status')->radioList(DataDict::getDict('status'))?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

@@ -20,13 +20,12 @@ if(empty($model->status)){
     <?= $form->field($model, 'update_date')->textInput() ?> -->
 
 
-<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->radioList(DataDict::getDict('status')) ?>
 
     
 
-    <?= $form->field($model, 'select_value')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'interface')->textInput(['maxlength' => true]) ?>
 

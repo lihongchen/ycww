@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\DictionarySearcjh */
+/* @var $model backend\models\DictionaryValueSearcjh */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="dictionary-search">
+<div class="dictionary-value-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -23,9 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'key') ?>
 
-    <?php // echo $form->field($model, 'interface') ?>
+    <?php // echo $form->field($model, 'value') ?>
+
+    <?php // echo $form->field($model, 'dictionary_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

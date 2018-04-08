@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\DataDict;
 use backend\models\Rules;
+use backend\models\Dictionary;
 /* @var $this yii\web\View */
 /* @var $model backend\models\ObjectFields */
 /* @var $form yii\widgets\ActiveForm */
@@ -27,7 +28,7 @@ if(empty($model->db_type)){
     <?= $form->field($model, 'qmbehaviors')->checkboxList(DataDict::getDict('qmbehaviors'))?>
     <?= $form->field($model, 'rules')->checkboxList(Rules::getPublicRules())?>
     <?= $form->field($model, 'status')->radioList(DataDict::getDict('status'))?>
-
+    <?= $form->field($model, 'dictionary_id')->radioList(Dictionary::getDictionary()) ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
