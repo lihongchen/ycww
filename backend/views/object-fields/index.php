@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'name',
+            'en_name',
             'db_type',
             'create_date',
             'update_date',

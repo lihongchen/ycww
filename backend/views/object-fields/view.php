@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'status',
             'name',
+            'en_name',
             'db_type',
             [
                 'attribute' => 'rules',
