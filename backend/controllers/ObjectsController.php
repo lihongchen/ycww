@@ -12,6 +12,9 @@ use yii\filters\VerbFilter;
 use yii\db\Migration;
 use backend\models\Rules;
 use yii\helpers\Json;
+use yii\gii\generators\model\Generator;
+use common\libraries\LimeStringHelper;
+
 /**
  * ObjectsController implements the CRUD actions for Objects model.
  */
@@ -114,13 +117,34 @@ class ObjectsController extends Controller
 
 
     public function actionDb($id){
-        $objects = Objects::find()->select(['id','name','en_name'])->where(['status'=>1])->orderBy('order')->asArray()->all();
+        $object = Objects::find()->select(['id','name','en_name'])->where(['status'=>1,'id'=>$id])->one();
 
         $rules = $this->buildRules();
-        foreach ($objects as $key => $value) {
-            $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type'])->where(['status'=>1,'object_id'=>$value['id']])->asArray()->all();
-            $this->createTable($value['en_name'],$objectFields,$rules);
+        $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type'])->where(['status'=>1,'object_id'=>$object->id])->asArray()->all();
+        $this->createTable($object->en_name,$objectFields,$rules);
+    }
+
+    public function actionCm($id){
+        $generator = new Generator();
+
+        $generator->ns='frontend\models';
+
+        $object = Objects::find()->select(['en_name'])->where(['status'=>1,'id'=>$id])->one();
+        $tableName = $object->en_name;
+        $modelClass = LimeStringHelper::camelize($tableName);
+        $generator->tableName=$tableName;
+        $generator->modelClass=$modelClass;
+
+        $files = $generator->generate();
+
+        $answers=[];
+        foreach ($files as $key => $value) {
+            $answers[$value->id] = 1;
         }
+
+
+        $generator->save($files, (array) $answers, $results);
+        echo ($results);
 
     }
 

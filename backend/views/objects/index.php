@@ -44,11 +44,19 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header'=>'操作',
-                'template'=>'{view} {update} {delete} {obj_fields}',
+                'template'=>'{view} {update} {delete} {obj_fields} {createTable} {createModel}',
                 'buttons' => [
                     'obj_fields'=>function($url, $model, $key){
                         return Html::a('字段设置',['/object-fields','object_id'=>$model->id],[
                                 'class'=>'btn btn-primary btn-sm' ]);
+                    },
+                    'createTable'=>function($url, $model, $key){
+                        return Html::a('生成表',['db','id'=>$model->id],[
+                                'class'=>'btn btn-primary btn-sm','target'=>'_blank']);
+                    },
+                    'createModel'=>function($url, $model, $key){
+                        return Html::a('生成模型',['cm','id'=>$model->id],[
+                                'class'=>'btn btn-primary btn-sm','target'=>'_blank']);
                     },
                 ],
             ],
