@@ -11,15 +11,15 @@ use Yii;
  * @property string $create_date
  * @property string $update_date
  * @property int $status 0 不可用  1 可用
- * @property string $xingxiangwaibiao
- * @property string $putonghuashuiping
- * @property string $nanfangcai
- * @property string $beifangcai
- * @property string $mianshi
- * @property string $haixian
- * @property string $weishengxiguan
- * @property string $xinggetedian
- * @property string $aihao
+ * @property string $xingxiangwaibiao 形象外表
+ * @property string $putonghuashuiping 普通话水平
+ * @property string $nanfangcai 膳食水平南方菜
+ * @property string $beifangcai 膳食水平北方菜
+ * @property string $mianshi 膳食水平面食
+ * @property string $haixian 膳食水平海鲜
+ * @property string $weishengxiguan 卫生习惯
+ * @property string $xinggetedian 性格特点
+ * @property string $aihao 爱好
  */
 class hlyAssess extends \yii\db\ActiveRecord
 {
@@ -52,16 +52,21 @@ class hlyAssess extends \yii\db\ActiveRecord
             'id' => 'ID',
             'create_date' => 'Create Date',
             'update_date' => 'Update Date',
-            'status' => 'Status',
-            'xingxiangwaibiao' => 'Xingxiangwaibiao',
-            'putonghuashuiping' => 'Putonghuashuiping',
-            'nanfangcai' => 'Nanfangcai',
-            'beifangcai' => 'Beifangcai',
-            'mianshi' => 'Mianshi',
-            'haixian' => 'Haixian',
-            'weishengxiguan' => 'Weishengxiguan',
-            'xinggetedian' => 'Xinggetedian',
-            'aihao' => 'Aihao',
+            'status' => '0 不可用  1 可用',
+            'xingxiangwaibiao' => '形象外表',
+            'putonghuashuiping' => '普通话水平',
+            'nanfangcai' => '膳食水平南方菜',
+            'beifangcai' => '膳食水平北方菜',
+            'mianshi' => '膳食水平面食',
+            'haixian' => '膳食水平海鲜',
+            'weishengxiguan' => '卫生习惯',
+            'xinggetedian' => '性格特点',
+            'aihao' => '爱好',
         ];
+    }
+
+ public function qmylRules()
+    {
+        return   'a:9:{s:16:"xingxiangwaibiao";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":2}";s:17:"putonghuashuiping";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":3}";s:10:"nanfangcai";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":5}";s:10:"beifangcai";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":5}";s:7:"mianshi";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":7}";s:7:"haixian";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":8}";s:14:"weishengxiguan";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":9}";s:12:"xinggetedian";s:77:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":10}";s:5:"aihao";s:77:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":11}";}'  ; 
     }
 }

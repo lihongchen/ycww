@@ -12,6 +12,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+
+
+<?php  
+
+
+$qmylRules = unserialize($model->qmylRules());
+ var_dump($qmylRules);
+
+?>
+
+
+
+
     <?= $form->field($model, 'create_date')->textInput() ?>
 
     <?= $form->field($model, 'update_date')->textInput() ?>

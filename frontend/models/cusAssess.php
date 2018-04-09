@@ -42,7 +42,12 @@ class cusAssess extends \yii\db\ActiveRecord
             'id' => 'ID',
             'create_date' => 'Create Date',
             'update_date' => 'Update Date',
-            'status' => 'Status',
+            'status' => '0 不可用  1 可用',
         ];
+    }
+
+ public function qmylRules()
+    {
+        return   'a:0:{}'  ; 
     }
 }

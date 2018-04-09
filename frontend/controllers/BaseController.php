@@ -8,12 +8,14 @@ use frontend\models\BaseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use common\libraries\LimeStringHelper;
 /**
  * BaseController implements the CRUD actions for Base model.
  */
 class BaseController extends Controller
 {
+
+    public  $modelPath="frontend\models\\";
     /**
      * @inheritdoc
      */
@@ -36,8 +38,12 @@ class BaseController extends Controller
     public function actionIndex()
     {
         $searchModel = new BaseSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $queryParams = Yii::$app->request->queryParams;
+        $table  = LimeStringHelper::camelize($queryParams['table']);
+        $tableModelStr = $this->modelPath.$table;
+        $model = new $tableModelStr();
+        $dataProvider = $searchModel->search($model,Yii::$app->request->queryParams);
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -62,9 +68,11 @@ class BaseController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($table)
     {
-        $model = new Base();
+        $table  = LimeStringHelper::camelize($table);
+        $modelName = $this->modelPath.$table;
+        $model = new $modelName();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

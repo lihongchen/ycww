@@ -123,36 +123,11 @@ class ObjectsController extends Controller
         $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type'])->where(['status'=>1,'object_id'=>$object->id])->asArray()->all();
         $this->createTable($object->en_name,$objectFields,$rules);
     }
-
-    public function actionCm($id){
-        $generator = new Generator();
-
-        $generator->ns='frontend\models';
-
-        $object = Objects::find()->select(['en_name'])->where(['status'=>1,'id'=>$id])->one();
-        $tableName = $object->en_name;
-        $modelClass = LimeStringHelper::camelize($tableName);
-        $generator->tableName=$tableName;
-        $generator->modelClass=$modelClass;
-
-        $files = $generator->generate();
-
-        $answers=[];
-        foreach ($files as $key => $value) {
-            $answers[$value->id] = 1;
-        }
-
-
-        $generator->save($files, (array) $answers, $results);
-        echo ($results);
-
-    }
-
     public function buildRules(){
-        $ruls = Rules::find()->select(['id','name','en_name','refids','rule_value','widget_type'])->where(['status'=>1])->all();
+        $ruls = Rules::find()->select(['id','name','en_name','refids','rule_value','widget_type','dictionary_id'])->where(['status'=>1])->all();
         $idRuls = array();
         foreach ($ruls as $key => $value) {
-            $idRuls[$value['id']] = array($value['en_name']=>$value['rule_value'],'refids'=>$value['refids'] );
+            $idRuls[$value['id']] = array($value['en_name']=>$value['rule_value'],'refids'=>$value['refids'],'dictionary_id'=>$value['dictionary_id'] );
         }
         foreach ($idRuls as $key => $value) {
             if(!empty($value['refids'])){
@@ -189,7 +164,7 @@ class ObjectsController extends Controller
         $tmpFields = array();
         foreach ($fields as $key => $value) {
             if((isset($sch->typeMap[$value['db_type']]))){
-                $tmpFields[$value['en_name']] =  $sch->typeMap[$value['db_type']] ;
+                $tmpFields[$value['en_name']] =  $sch->typeMap[$value['db_type']].' COMMENT \''.$value['name'].'\'';
             }
             
         }
@@ -204,6 +179,61 @@ class ObjectsController extends Controller
         $mir->createTable($table_name, array_merge($baseFields,$tmpFields)); 
     }
 
+    public function actionCm($id){
+        $generator = new Generator();
+
+        $generator->ns='frontend\models';
+        $generator->generateLabelsFromComments=true;
+        $object = Objects::find()->select(['en_name'])->where(['status'=>1,'id'=>$id])->one();
+
+        $qmylRules = $this->addQmylRules($id);
+
+        $tableName = $object->en_name;
+        $modelClass = LimeStringHelper::camelize($tableName);
+        $generator->tableName=$tableName;
+        $generator->modelClass=$modelClass;
+
+        $files = $generator->generate();
+ 
+        $answers=[];
+        foreach ($files as $key => $value) {
+            $answers[$value->id] = 1;
+            $len = strripos($value->content, "}");
+            $str = substr($value->content,0,$len); 
+            $value->content = $str . $qmylRules."\n}";
+        }
+
+        // var_dump($files);
+        // die;
+        $generator->save($files, (array) $answers, $results);
+        echo ($results);
+
+    }
+
+    public function addQmylRules($object_id){
+        $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type','dictionary_id'])->where(['status'=>1,'object_id'=>$object_id])->all();
+        $rules = $this->buildRules();
+
+        $retArray = array();
+        foreach ($objectFields as   $field) {
+            if(!empty($field->rules)){
+                $fieldRules = array();
+                foreach ($field->rules as $key => $value) {
+                    $fieldRules['rules'] =  $rules[$value];
+                    $fieldRules['dictionary_id'] =  $field->dictionary_id;
+                }
+                $retArray[$field->en_name] = Json::encode($fieldRules);
+            }
+            
+        }
+        $serializeFields = serialize ($retArray);
+        $qmylRules = 
+"\n public function qmylRules()
+    {
+        return   '".$serializeFields."'  ; 
+    }";
+        return $qmylRules;
+    }
 
     /**
      * Finds the Objects model based on its primary key value.

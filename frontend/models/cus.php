@@ -11,8 +11,8 @@ use Yii;
  * @property string $create_date
  * @property string $update_date
  * @property int $status 0 不可用  1 可用
- * @property int $name
- * @property string $age
+ * @property int $name 名称
+ * @property string $age 年龄
  */
 class cus extends \yii\db\ActiveRecord
 {
@@ -45,9 +45,14 @@ class cus extends \yii\db\ActiveRecord
             'id' => 'ID',
             'create_date' => 'Create Date',
             'update_date' => 'Update Date',
-            'status' => 'Status',
-            'name' => 'Name',
-            'age' => 'Age',
+            'status' => '0 不可用  1 可用',
+            'name' => '名称',
+            'age' => '年龄',
         ];
+    }
+
+ public function qmylRules()
+    {
+        return   'a:0:{}'  ; 
     }
 }

@@ -9,6 +9,12 @@ use yii\grid\GridView;
 
 $this->title = 'Bases';
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$model = $dataProvider->query->modelClass;
+$atrs = (new $model())->attributes();
+$columns = [ ['class' => 'yii\grid\ActionColumn'], ] ;
+$columns = array_merge($atrs,$columns);
 ?>
 <div class="base-index">
 
@@ -16,21 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Base', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Base', ['create','table'=>Yii::$app->request->queryParams['table']], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'create_date',
-            'update_date',
-            'status',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
+        'columns' => $columns,
     ]); ?>
 </div>

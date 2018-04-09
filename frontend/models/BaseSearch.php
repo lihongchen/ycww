@@ -39,9 +39,9 @@ class BaseSearch extends Base
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($model,$params)
     {
-        $query = Base::find();
+        $query = $model::find();
 
         // add conditions that should always apply here
 
@@ -49,9 +49,9 @@ class BaseSearch extends Base
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $model->load($params,'');
 
-        if (!$this->validate()) {
+        if (!$model->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -59,10 +59,11 @@ class BaseSearch extends Base
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'create_date' => $this->create_date,
-            'update_date' => $this->update_date,
-            'status' => $this->status,
+            'id' => $model->id,
+            'create_date' => $model->create_date,
+            'update_date' => $model->update_date,
+            'status' => $model->status,
+            'xingxiangwaibiao'=>$model->status,
         ]);
 
         return $dataProvider;
