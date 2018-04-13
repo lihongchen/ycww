@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use common\models\QmylWidgets;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Base */
 /* @var $form yii\widgets\ActiveForm */
@@ -15,21 +15,9 @@ use yii\widgets\ActiveForm;
 
 
 <?php  
-
-
-$qmylRules = unserialize($model->qmylRules());
- var_dump($qmylRules);
-
+$qmylWidgets = new QmylWidgets();
+echo $qmylWidgets->createForm($form,$model);
 ?>
-
-
-
-
-    <?= $form->field($model, 'create_date')->textInput() ?>
-
-    <?= $form->field($model, 'update_date')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

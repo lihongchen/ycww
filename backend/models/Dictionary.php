@@ -26,6 +26,7 @@ class Dictionary extends \yii\db\ActiveRecord
         return 'dictionary';
     }
 
+
     /**
      * @inheritdoc
      */
@@ -61,6 +62,7 @@ class Dictionary extends \yii\db\ActiveRecord
         return $this->hasMany(DictionaryValue::className(), ['dictionary_id' => 'id']);
     }
 
+    //提供给object和rule选择
     public static function getDictionary(){
 
         $objs = Dictionary::find()->select("id,name")->orderBy('convert(name using gbk) asc') ->all();
@@ -69,5 +71,31 @@ class Dictionary extends \yii\db\ActiveRecord
             $retarray[$value['id']] = $value['name'] ; 
         }
         return $retarray;
+    }
+
+
+
+    private static $dictionarys;
+    static public function getDict(){
+                //判断$instance是否是Uni的对象
+                //没有则创建
+        if (empty($dictionarys)) {
+            self::$dictionarys =  self::getAllDict();
+        }
+        return self::$dictionarys;
+        
+    }
+    private static function getAllDict(){
+        $dicts = Dictionary::find()->select("id,name")-> where(['status'=>1])->all();
+        $ret = array();
+        foreach ($dicts as $dict) {
+            $dictionaryValues = $dict->dictionaryValues;
+            $dictValue = array();
+            foreach ($dictionaryValues as $dictionaryValue) {
+                $dictValue[$dictionaryValue->key] = $dictionaryValue->value;
+            }
+            $ret[$dict->id] = $dictValue;
+        }
+        return $ret;
     }
 }

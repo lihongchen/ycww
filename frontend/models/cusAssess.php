@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-
+use common\behaviors\JsonArrayBehavior;
 /**
  * This is the model class for table "cus_assess".
  *
@@ -29,7 +29,7 @@ class cusAssess extends \yii\db\ActiveRecord
     {
         return [
             [['create_date', 'update_date'], 'safe'],
-            [['status'], 'string', 'max' => 3],
+            [['status'], 'integer'],
         ];
     }
 

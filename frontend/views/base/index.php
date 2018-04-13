@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Json;
+use common\models\QmylWidgets;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\BaseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,10 +12,34 @@ $this->title = 'Bases';
 $this->params['breadcrumbs'][] = $this->title;
 
 
-$model = $dataProvider->query->modelClass;
-$atrs = (new $model())->attributes();
-$columns = [ ['class' => 'yii\grid\ActionColumn'], ] ;
+$model = new $dataProvider->query->modelClass();
+$tableName = Yii::$app->request->queryParams['table'];
+$atrs = $model->attributes();
+$columns = [['class' => 'yii\grid\ActionColumn',
+            'urlCreator' => function ($action, $model, $key, $index)use($tableName) {
+                $params = [];
+                    switch($action)
+                    {
+                        case 'view':
+                            return ['view','table'=>$tableName,'id'=>$key];
+                        break;
+                        case 'update':
+                            return ['update','table'=>$tableName,'id'=>$key];
+                        break;
+                        case 'delete':
+                            return ['delete','table'=>$tableName,'id'=>$key];
+                        break;
+
+                    }
+
+                },
+             ],] ;
+
+
+$atrs = QmylWidgets::createIndexColumns($model);
 $columns = array_merge($atrs,$columns);
+ // var_dump($atrs); die;
+
 ?>
 <div class="base-index">
 

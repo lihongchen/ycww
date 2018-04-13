@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-
+use common\behaviors\JsonArrayBehavior;
 /**
  * This is the model class for table "cus".
  *
@@ -31,8 +31,7 @@ class cus extends \yii\db\ActiveRecord
     {
         return [
             [['create_date', 'update_date', 'age'], 'safe'],
-            [['name'], 'integer'],
-            [['status'], 'string', 'max' => 3],
+            [['status', 'name'], 'integer'],
         ];
     }
 
@@ -53,6 +52,6 @@ class cus extends \yii\db\ActiveRecord
 
  public function qmylRules()
     {
-        return   'a:0:{}'  ; 
+        return   'a:2:{s:4:"name";s:17:"{"db_type":"int"}";s:3:"age";s:18:"{"db_type":"date"}";}'  ; 
     }
 }

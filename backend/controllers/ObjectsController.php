@@ -164,7 +164,13 @@ class ObjectsController extends Controller
         $tmpFields = array();
         foreach ($fields as $key => $value) {
             if((isset($sch->typeMap[$value['db_type']]))){
-                $tmpFields[$value['en_name']] =  $sch->typeMap[$value['db_type']].' COMMENT \''.$value['name'].'\'';
+
+                $filedType = $sch->typeMap[$value['db_type']];
+                if($value['db_type']=='varchar'){
+                    $filedType .= '(500) ';
+                }
+
+                $tmpFields[$value['en_name']] = $filedType .'   COMMENT \''.$value['name'].'\'';
             }
             
         }
@@ -173,9 +179,9 @@ class ObjectsController extends Controller
             'id' => 'pk',  
             'create_date' => $sch::TYPE_DATETIME . '  DEFAULT CURRENT_TIMESTAMP ',  
             'update_date' => $sch::TYPE_DATETIME . '  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ',  
-            'status' => $sch::TYPE_TINYINT . '   DEFAULT \'1\' COMMENT \'0 不可用  1 可用\' ', 
+            'status' => $sch::TYPE_SMALLINT . '   DEFAULT \'1\' COMMENT \'0 不可用  1 可用\' ', 
             ];
-
+            // var_dump($tmpFields);die;
         $mir->createTable($table_name, array_merge($baseFields,$tmpFields)); 
     }
 
@@ -211,29 +217,72 @@ class ObjectsController extends Controller
     }
 
     public function addQmylRules($object_id){
-        $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type','dictionary_id'])->where(['status'=>1,'object_id'=>$object_id])->all();
+        $objectFields = ObjectFields::find()->select(['name','en_name','rules','db_type','dictionary_id','qmbehaviors'])->where(['status'=>1,'object_id'=>$object_id])->all();
         $rules = $this->buildRules();
 
-        $retArray = array();
+        $rulesArray = array();
+        $behaviorArray = array();
         foreach ($objectFields as   $field) {
+            //处理规则
+            $fieldRules = array();
             if(!empty($field->rules)){
-                $fieldRules = array();
+
                 foreach ($field->rules as $key => $value) {
-                    $fieldRules['rules'] =  $rules[$value];
-                    $fieldRules['dictionary_id'] =  $field->dictionary_id;
+                    $tmp =  $rules[$value];
+                    if(empty($tmp['dictionary_id'])){
+                        $tmp['dictionary_id'] =  $field->dictionary_id;
+                    }
+                    $fieldRules['rules'] = array_merge(empty($fieldRules['rules'])?[]:$fieldRules['rules'],$tmp) ;
                 }
-                $retArray[$field->en_name] = Json::encode($fieldRules);
             }
-            
+            //处理数据类型
+            if(!empty($field->db_type)){
+                $fieldRules['db_type'] = $field->db_type;
+            }
+            $rulesArray[$field->en_name] = Json::encode($fieldRules);
+
+            //处理Behaviors
+            if(!empty($field->qmbehaviors)){
+                // var_dump($field->qmbehaviors);die;
+                $behaviors = $field->qmbehaviors;
+                if(in_array('JsonArrayBehavior',$behaviors)){
+                    $behaviorArray['JsonArrayBehavior'][] = $field->en_name;
+                }
+
+            }
         }
-        $serializeFields = serialize ($retArray);
+                
+        $serializeFields = serialize ($rulesArray);
         $qmylRules = 
 "\n public function qmylRules()
     {
         return   '".$serializeFields."'  ; 
     }";
+
+    if(!empty($behaviorArray)){
+        if(!empty($behaviorArray['JsonArrayBehavior'])){
+            $qmylRules .= $this->addJsonBehaviors($behaviorArray['JsonArrayBehavior']);
+        }
+    }
+
         return $qmylRules;
     }
+
+
+    public function addJsonBehaviors($behaviorArray){
+        $qmbehaviorsStart = "\n public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [  
+            [
+                'class'   => JsonArrayBehavior::className(),
+                'attributes' => [\"".implode("\",\"",$behaviorArray)."\"],
+            ],
+
+         ]);
+    }";
+        return $qmbehaviorsStart;
+    }
+
 
     /**
      * Finds the Objects model based on its primary key value.

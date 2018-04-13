@@ -2,13 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use common\models\QmylWidgets;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Base */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Bases', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$columns = QmylWidgets::createIndexColumns($model);
 ?>
 <div class="base-view">
 
@@ -27,12 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
-        'attributes' => [
-            'id',
-            'create_date',
-            'update_date',
-            'status',
-        ],
+        'attributes' => $columns,
     ]) ?>
 
 </div>

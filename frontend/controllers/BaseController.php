@@ -75,7 +75,7 @@ class BaseController extends Controller
         $model = new $modelName();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id,'table'=>$table]);
         }
 
         return $this->render('create', [
@@ -93,9 +93,9 @@ class BaseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $table = Yii::$app->request->queryParams['table'];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id,'table'=>$table]);
         }
 
         return $this->render('update', [
@@ -113,8 +113,8 @@ class BaseController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $table = Yii::$app->request->queryParams['table'];
+        return $this->redirect(['index','table'=>$table]);
     }
 
     /**
@@ -126,7 +126,12 @@ class BaseController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Base::findOne($id)) !== null) {
+
+        $queryParams = Yii::$app->request->queryParams;
+        $table  = LimeStringHelper::camelize($queryParams['table']);
+        $tableModelStr = $this->modelPath.$table;
+        $model = new $tableModelStr();
+        if (($model = $model->findOne($id)) !== null) {
             return $model;
         }
 

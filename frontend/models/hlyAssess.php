@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-
+use common\behaviors\JsonArrayBehavior;
 /**
  * This is the model class for table "hly_assess".
  *
@@ -38,8 +38,8 @@ class hlyAssess extends \yii\db\ActiveRecord
     {
         return [
             [['create_date', 'update_date'], 'safe'],
-            [['status'], 'string', 'max' => 3],
-            [['xingxiangwaibiao', 'putonghuashuiping', 'nanfangcai', 'beifangcai', 'mianshi', 'haixian', 'weishengxiguan', 'xinggetedian', 'aihao'], 'string', 'max' => 255],
+            [['status'], 'integer'],
+            [['xingxiangwaibiao', 'putonghuashuiping', 'nanfangcai', 'beifangcai', 'mianshi', 'haixian', 'weishengxiguan', 'xinggetedian', 'aihao'], 'string', 'max' => 500],
         ];
     }
 
@@ -67,6 +67,16 @@ class hlyAssess extends \yii\db\ActiveRecord
 
  public function qmylRules()
     {
-        return   'a:9:{s:16:"xingxiangwaibiao";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":2}";s:17:"putonghuashuiping";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":3}";s:10:"nanfangcai";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":5}";s:10:"beifangcai";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":5}";s:7:"mianshi";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":7}";s:7:"haixian";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":8}";s:14:"weishengxiguan";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":9}";s:12:"xinggetedian";s:77:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":10}";s:5:"aihao";s:77:"{"rules":{"checkbox":"","refids":"","dictionary_id":null},"dictionary_id":11}";}'  ; 
+        return   'a:9:{s:16:"xingxiangwaibiao";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":2},"db_type":"varchar"}";s:17:"putonghuashuiping";s:72:"{"rules":{"radio":"","refids":"","dictionary_id":3},"db_type":"varchar"}";s:10:"nanfangcai";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":5},"db_type":"varchar"}";s:10:"beifangcai";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":5},"db_type":"varchar"}";s:7:"mianshi";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":7},"db_type":"varchar"}";s:7:"haixian";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":8},"db_type":"varchar"}";s:14:"weishengxiguan";s:75:"{"rules":{"checkbox":"","refids":"","dictionary_id":9},"db_type":"varchar"}";s:12:"xinggetedian";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":10},"db_type":"varchar"}";s:5:"aihao";s:76:"{"rules":{"checkbox":"","refids":"","dictionary_id":11},"db_type":"varchar"}";}'  ; 
+    }
+ public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [  
+            [
+                'class'   => JsonArrayBehavior::className(),
+                'attributes' => ["xingxiangwaibiao","nanfangcai","beifangcai","mianshi","haixian","weishengxiguan","xinggetedian","aihao"],
+            ],
+
+         ]);
     }
 }
