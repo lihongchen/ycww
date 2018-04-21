@@ -92,7 +92,7 @@ class Dictionary extends \yii\db\ActiveRecord
             $dictionaryValues = $dict->dictionaryValues;
             $dictValue = array();
             foreach ($dictionaryValues as $dictionaryValue) {
-                $dictValue[$dictionaryValue->key] = $dictionaryValue->value;
+                $dictValue[$dictionaryValue->value] = $dictionaryValue->key;
             }
             $ret[$dict->id] = $dictValue;
         }

@@ -33,6 +33,23 @@ $columns = [['class' => 'yii\grid\ActionColumn',
                     }
 
                 },
+            // 'header'=>'操作',
+            // 'template'=>'{view} {update} {delete}',
+            // 'buttons' => [
+            //     'view'=>function($url, $model, $key)use($tableName){
+            //         return Html::a('详情',['view','table'=>$tableName,'id'=>$key],[
+            //                 'class'=>'btn btn-info btn-sm','data-toggle'=>"modal",'data-target'=>"#myModal"
+            //         ]);
+            //     },
+            //     'update'=>function($url, $model, $key)use($tableName){
+            //         return Html::a('更新',['update','table'=>$tableName,'id'=>$key],[
+            //                 'class'=>'btn btn-primary btn-sm','data-toggle'=>"modal",'data-target'=>"#myModal"
+            //         ]);
+            //     },
+            // ],
+
+
+
              ],] ;
 
 
